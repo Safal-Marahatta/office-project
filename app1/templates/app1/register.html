@@ -1,0 +1,129 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: "Rock Salt", cursive;
+            background-color: rgba(210, 180, 140,0.3);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display:flex;
+            flex-direction:column;
+        }
+        .logo{
+            height:50px;
+            width:50px;
+            align-self:center;
+            margin:0px 0px 5px 0px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register to MyTask</h2>
+        <img src='{%static 'app1/logo.jpg'%}' class="logo">
+        <form id="registration-form" method="post" action="{%url 'register'%}">
+            {% csrf_token %}
+            <div class="form-group">
+                {% comment %} <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required> {% endcomment %}
+                {{form.username}}
+            </div>
+            <div class="form-group">
+                {% comment %} <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required> {% endcomment %}
+                {{form.firstname}}
+            </div>
+            <div class="form-group">
+                {% comment %} <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required> {% endcomment %}
+                {{form.lastname}}
+            </div>
+            <div class="form-group">
+                {% comment %} <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required> {% endcomment %}
+                {{form.password}}
+            </div>
+            <div class="form-group">
+                {% comment %} <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required> {% endcomment %}
+                {{form.confirm_password}}
+                <span id="password-message" class="error-message"></span>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registration-form').addEventListener('submit', function(event) {
+            var password = document.getElementById('id_password').value;
+            var confirm_password = document.getElementById('id_confirm_password').value;
+            var password_message = document.getElementById('password-message');
+
+            if (password !== confirm_password) {
+                password_message.textContent = 'Passwords do not match';
+                event.preventDefault();
+            } else {
+                password_message.textContent = '';
+            }
+        });
+    </script>
+</body>
+</html>
+

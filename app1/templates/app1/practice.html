@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Table</title>
+<style>
+/* Add your custom styles here */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+table th {
+  background-color: #f2f2f2;
+}
+
+.edit-input {
+  width: 100%;
+}
+
+.save-btn {
+  margin-right: 5px;
+}
+</style>
+</head>
+<body>
+
+<table id="data-table">
+  <thead>
+    <tr>
+      <th>Project Code</th>
+      <th>PI Number</th>
+      <th>Description</th>
+      <th>Amount</th>
+      <th>Date</th>
+      <th>Processed By</th>
+      <th>Follow Up Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Table rows will be populated dynamically -->
+  </tbody>
+</table>
+
+<script>
+// Sample data (you'll replace this with your actual data)
+let data = JSON.parse('{{ projects|escapejs }}');
+
+// Function to populate the table with data
+function populateTable() {
+  const tbody = document.querySelector('#data-table tbody');
+  tbody.innerHTML = '';
+
+  data.forEach(item => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${item.projectCode}</td>
+      <td>${item.piNumber}</td>
+      <td>${item.description}</td>
+      <td>${item.amount}</td>
+      <td>${item.date}</td>
+      <td>${item.processedBy}</td>
+      <td>${item.followUpStatus}</td>
+      <td><button class="edit-btn">Edit</button><button class="save-btn" style="display:none;">Save</button></td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+// Function to handle edit button click
+function handleEditClick(event) {
+  const row = event.target.parentNode.parentNode;
+  const cells = row.querySelectorAll('td:not(:last-child)');
+
+  cells.forEach(cell => {
+    const content = cell.innerHTML;
+    cell.innerHTML = `<input class="edit-input" type="text" value="${content}">`;
+  });
+
+  const editBtn = row.querySelector('.edit-btn');
+  const saveBtn = row.querySelector('.save-btn');
+
+  editBtn.style.display = 'none';
+  saveBtn.style.display = 'inline-block';
+}
+
+// Function to handle save button click
+function handleSaveClick(event) {
+  const row = event.target.parentNode.parentNode;
+  const cells = row.querySelectorAll('td:not(:last-child)');
+
+  cells.forEach(cell => {
+    const inputValue = cell.querySelector('.edit-input').value;
+    cell.innerHTML = inputValue;
+  });
+
+  const editBtn = row.querySelector('.edit-btn');
+  const saveBtn = row.querySelector('.save-btn');
+
+  editBtn.style.display = 'inline-block';
+  saveBtn.style.display = 'none';
+
+  // Update the data array with the edited values
+  const rowIndex = row.rowIndex - 1; // Adjust index to account for header row
+  const rowData = data[rowIndex];
+
+  Object.keys(rowData).forEach((key, index) => {
+    rowData[key] = cells[index].innerText;
+  });
+}
+
+// Attach event listeners
+document.addEventListener('DOMContentLoaded', populateTable);
+document.addEventListener('click', function(event) {
+  if (event.target.classList.contains('edit-btn')) {
+    handleEditClick(event);
+  } else if (event.target.classList.contains('save-btn')) {
+    handleSaveClick(event);
+  }
+});
+</script>
+
+</body>
+</html>
+
+
+
+
+

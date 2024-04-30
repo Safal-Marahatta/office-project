@@ -1,0 +1,802 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <style>
+        *{
+            box-sizing: border-box;
+            padding:0;
+            margin:0;
+        }
+        body {
+            {% comment %} font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; {% endcomment %}
+            font-family:"Arial", "Rock Salt", cursive;
+        }
+{% comment %} glowing navabar start {% endcomment %}
+        .navbar {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background-color:#367588;
+            color: white;
+            padding: 10px;
+            {% comment %} animation: glow 2s infinite alternate; /* Animation to create glowing effect */ {% endcomment %}
+        }
+        .logo{
+            height:50px;
+            width:50px;
+        }
+        {% comment %} @keyframes glow {
+            0% {
+                box-shadow: 0 0 20px 0 rgba(255, 0, 0, 0.2); /* Start with a dim glow */
+            }
+            100% {
+                box-shadow: 0 0 40px 0 rgba(255, 0, 0, 0.6); /* End with a brighter glow */
+            }
+        } {% endcomment %}
+{% comment %} glowing navbar end {% endcomment %}
+        /* Style for navbar links */
+        .navbar a {
+            font-size: 24px;
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Hover effect for navbar links */
+        .navbar a:hover {
+            color: rgb(255, 255, 0);
+            animation: glow2 0.5s infinite alternate; /* Animation for glowing effect */
+        }
+
+        /* Glowing animation */
+        @keyframes glow2 {
+            0% {
+                text-shadow: 0 0 5px rgba(255, 255, 0, 0.8); /* Start with a dim glow */
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(255, 255, 0, 0.8); /* End with a brighter glow */
+            }
+        }
+{% comment %} flames comming out of greeting {% endcomment %}
+.greeting {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a subtle shadow */
+    {% comment %} animation: shine 2s infinite alternate; /* Apply a shimmering animation */ {% endcomment %}
+  }
+  
+  {% comment %} @keyframes shine {
+    from {
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Initial shadow */
+    }
+    to {
+      text-shadow: 2px 2px 8px rgba(255, 215, 0, 0.8); /* Brighter shadow */
+    }
+  } {% endcomment %}
+  
+        
+{% comment %} flames end           {% endcomment %}
+
+
+        @media (max-width: 680px) {
+            .logo {
+                display:none;
+            }
+        }
+
+
+
+
+        .user_input{
+
+            display:flex;
+            flex-direction:row;
+            {% comment %} justify-content:flex-start; {% endcomment %}
+            justify-content:center;
+            align-items:flex-end;
+            margin:20px 0 10px 0;
+        }
+
+        .user_input div{
+            padding:5px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+        }
+        #id_description{
+            width:500px;
+        }
+        @media (max-width:851px){
+            #id_description{
+                width:350px;
+            }
+        }
+        @media (max-width:700px){
+            #id_description{
+                width:auto;
+            }
+        }
+
+        /* Style the input field */
+        input[type="text"] {
+            padding: 10px; /* Add padding inside the input field */
+            border: 1px solid #ccc; /* Add a border around the input field */
+            border-radius: 5px; /* Add rounded corners to the input field */
+            background-color: #f8f8f8; /* Set the background color of the input field */
+            font-size: 16px; /* Set the font size of the text inside the input field */
+            color: #333; /* Set the text color of the input field */
+        }
+        /* Apply additional styling when the input field is focused */
+        input[type="text"]:focus {
+            outline: none; /* Remove the default focus outline */
+            border-color: #007bff; /* Change the border color when the input field is focused */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a box shadow when the input field is focused */
+        }
+        input[type="date"], input[type="date"]:focus, input[type="date"]:active {
+            padding: 10px; /* Add padding inside the input field */
+            border: 1px solid #ccc; /* Add a border around the input field */
+            border-radius: 5px; /* Add rounded corners to the input field */
+            background-color: #f8f8f8; /* Set the background color of the input field */
+            font-size: 16px; /* Set the font size of the text inside the input field */
+            color: #333; /* Set the text color of the input field */
+        }
+        /* Apply additional styling when the date input field is focused */
+        input[type="date"]:focus {
+            outline: none; /* Remove the default focus outline */
+            border-color: #007bff; /* Change the border color when the input field is focused */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a box shadow when the input field is focused */
+        }
+
+        input[type="submit"],.popup_section3 button{
+            margin:5px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size:18px;
+        }
+        
+        input[type="submit"]:hover,.popup_section3 button:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 544px) {
+            .user_input {
+                flex-direction: column; /* Change flex direction to column */
+                align-items:center;
+            }
+        }
+        .task_view{
+            margin:5px;
+        }
+        .task_view h1{
+            font-size:18px;
+
+        }
+        /* Style for the table */
+        .task-table {
+            table-layout: fixed;
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            border:2px solid grey;
+        }
+        .expired_table{
+            background-color:rgba(255,0,0,0.1);
+        }
+
+        /* Style for table header */
+        .task-table th {
+            background-color:rgba(113,188,120,1);
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-family: "Arial","Rock Salt", cursive;
+            
+        }
+
+        /* Style for table cells */
+        .task-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            font-family: "Arial","Rock Salt", cursive;
+            text-align:left;
+            
+        }
+      {% comment %} table ko sizing   {% endcomment %}
+        .type2 th:nth-child(1){
+            width:15%; /* Adjust width as needed */
+        }
+        .type2 th:nth-child(2){
+            width:40%; /* Adjust width as needed */
+        }
+        .type2 th:nth-child(3){
+            width:30%; /* Adjust width as needed */
+        }
+        .type2 th:nth-child(4){
+            width: 15%; /* Adjust width as needed */
+        }
+
+        .type1 th:nth-child(1){
+            width: 15%; /* Adjust width as needed */
+        }
+        .type1 th:nth-child(2){
+            width: 40%; /* Adjust width as needed */
+        }
+        .type1 th:nth-child(3){
+            width: 45%; /* Adjust width as needed */
+        }
+        .type3 th:nth-child(1){
+            width: 10%; /* Adjust width as needed */
+        }
+        .type3 th:nth-child(2){
+            width: 35%; /* Adjust width as needed */
+        }
+        .type3 th:nth-child(3){
+            width: 20%; /* Adjust width as needed */
+        }
+        .type3 th:nth-child(4),
+        .type3 td:nth-child(4) {
+            width: 35%; /* Adjust width as needed */
+        }
+
+        {% comment %} table ko sizing {% endcomment %}
+
+        /* Style for action buttons */
+        .action-buttons button {
+            padding: 5px 10px;
+            margin-right: 5px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease; /* Smooth transition for hover effect */
+        }
+
+        /* Style for Ok button */
+        .action-buttons .ok {
+            background-color: #28a745;
+            color: white;
+        }
+
+        /* Hover effect for Ok button */
+        .action-buttons .ok:hover {
+            background-color: #218838;
+        }
+
+        /* Style for Repeat button */
+        .action-buttons .repeat {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        /* Hover effect for Repeat button */
+        .action-buttons .repeat:hover {
+            background-color: #e0a800;
+        }
+
+        /* Style for Postpone button */
+        .action-buttons .postpone {
+            background-color: #dc3545;
+            color: white;
+        }
+        /* Hover effect for Postpone button */
+        .action-buttons .postpone:hover {
+            background-color: #c82333;
+        }
+        #overlay{
+            display:none;
+            position:fixed;
+            top:0;
+            left:0;
+            width:100vw;
+            height:100vh;
+            background:rgba(0,0,0,0.8);
+            z-index:200; 
+        }
+        
+        .popup{
+            display:none;
+            position:fixed;
+            top:50%;
+            left:50%;
+            transform:translate(-50%, -50%);
+            border:2px solid rgb(128,128,128);
+            border-radius:10px;
+            z-index:1001;
+            background-color:white;
+            width:400px;
+            height:200px;
+
+        }
+        .popup2{
+            height:100%;
+            width:100%;
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-start;
+            align-items:center;
+            flex-grow:1
+
+        }
+        .close{
+            font-size:40px;
+            color:rgb(54, 69, 79);
+            border:none;
+            background:none;
+            align-self:flex-start;
+            padding-left:10px;
+            font-weight:300;
+
+        }
+        .close:hover{
+            cursor:pointer;
+        }
+        .popup_section3{
+            height:auto;
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between;
+            align-items:center;
+        }
+        @media (max-width:406px){
+            .popup{
+                height:40vh;
+                width:100vw;
+            }
+        }
+        
+    </style>
+    
+</head>
+<body>
+    <section class="navbar">
+        <h3 class="greeting">Welcome {{firstname|capfirst}} {{lastname|capfirst}}</h3>
+        <img src='{%static 'app1/logo.jpg'%}' class="logo">
+        <a href="{%url "logout" %}"><i class="fas fa-sign-out-alt"></i> Log out</a>
+    </section>
+
+    <form class="user_input" action="{%url "home"%}" method='POST'>
+        {%csrf_token%}
+        {{form}}
+        <input type="submit" value="Submit">
+    </form>
+
+    <section class="task_view">
+
+        <h1>Today</h1>
+        <table class="task-table type1" id="today_table">
+            <thead>
+                <tr id="1">
+                    <th>SN</th>
+                    <th>Task</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%if today%}
+                {%for task in today%}
+                <tr id={{task.id}}>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{task.description}}</td>
+                    <td class="action-buttons">
+                        <button class="ok">Ok</button>
+                        <button class="repeat">Repeat</button>
+                        <button class="postpone">Postpone</button>
+                    </td>
+                </tr>
+                {% endfor %}
+                {%else%}
+                <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td class="action-buttons">
+                        --
+                    </td>
+                </tr>
+                {%endif%}
+                {%for task in repeat%}
+                <tr id={{task.id}}b>
+                    <td>R{{ forloop.counter }}</td>
+                    <td>{{task.descripti}}</td>
+                    <td class="action-buttons">
+                        <button class="ok">Ok</button>
+                        <button class="postpone">Postpone</button>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+
+
+        <h1>Tomorrow</h1>
+        <table class="task-table type2" id="tommorow_table">
+            <thead>
+                <tr id="4">
+                    <th>SN</th>
+                    <th>Task</th>
+                    <th>Deadline</th>
+                    <th>Due days</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%if tommorrow%}
+                {%for task in tommorrow%}
+                <tr id={{task.id}}>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{task.description}}</td>
+                    <td class="deadline">{{task.deadline}}</td>
+                    <td class="due_days">1</td>
+                </tr>
+                {%endfor%}
+                {%else%}
+                <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+                {%endif%}
+            </tbody>
+        </table>
+
+
+
+        <h1>Within a Week</h1>
+        <table class="task-table type2" id="this_week_table">
+            <thead>
+                <tr id="7">
+                    <th>SN</th>
+                    <th>Task</th>
+                    <th>Deadline</th>
+                    <th>Due days</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%if this_week%}
+                {%for task,due_days in this_week%}
+                <tr id="8">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{task.description}}</td>
+                    <td class="deadline">{{task.deadline}}</td>
+                    <td class="due_days">{{due_days}}</td>
+                </tr>
+                {%endfor%}
+                {%else%}
+                <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+                {%endif%}
+            </tbody>
+        </table>
+
+
+        <h1>Within a Month</h1>
+        <table class="task-table type2" id="this_month_table">
+            <thead>
+                <tr id="10">
+                    <th>SN</th>
+                    <th>Task</th>
+                    <th>Deadline</th>
+                    <th>Due days</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%if this_month%}
+                {%for task,due_days in this_month%}
+                <tr id="11">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{task.description}}</td>
+                    <td class="deadline">{{task.deadline}}</td>
+                    <td class="due_days">{{due_days}}</td>
+                </tr>
+                {%endfor%}
+                {%else%}
+                <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+                {%endif%}
+            </tbody>
+        </table>
+
+
+
+        <h1>Expired Tasks</h1>
+        <table class="task-table expired_table type3" id="expired_tables">
+            <thead>
+                <tr id="13">
+                    <th>SN</th>
+                    <th>Task</th>
+                    <th>Deadline</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%if expired%}
+                {%for task in expired%}
+                <tr id={{task.id}}>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{task.description}}</td>
+                    <td class="deadline">{{task.deadline}}</td>
+                    <td class="action-buttons">
+                        <button class="ok">Ok</button>
+                        <button class="repeat">Repeat</button>
+                        <button class="postpone">Postpone</button>
+                    </td>
+                </tr>
+                {%endfor%}
+                {%else%}
+                <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+                {%endif%}
+            </tbody>
+
+    </section>
+
+
+    {% comment %} this is the popup that appears after clicking postpone {% endcomment %}
+    <div class="overlay" id="overlay"></div>  <!-- Background Overlay -->
+
+
+    <div class="popup" id="postPopup">
+        <div class="popup2">
+            <button class="close">&times;</button>
+            <div class="popup_section3">
+                <label for="id_deadline_re">Select a new deadline:</label>
+                <input type="date" name="deadline_re" id="id_deadline_re" placeholder="YYYY-MM-DD">
+                {% comment %} <input type="submit" value="Submit"> {% endcomment %}
+                <button id="dedline_resubmit">Submit</button>
+            </div>
+        </div> 
+    </div>
+
+
+
+    <script>
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//                                      Function to get CSRF token from cookies
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+//**************************************yo chai date ma calender lyauna ko lagi************************************************************
+
+// Get the date input element
+var deadlineInput = document.getElementById('id_deadline');
+
+// Add focus event listener to the date input
+deadlineInput.addEventListener('focus', function() {
+// Show the date picker dialog
+    this.type = 'date';
+});
+
+
+// Get the date input element
+var deadlineInput2 = document.getElementById('id_deadline_re');
+
+// Add focus event listener to the date input
+deadlineInput2.addEventListener('focus', function() {
+// Show the date picker dialog
+    this.type = 'date';
+});
+//*******************************************************************************************************************************************
+//yo ok click garesi
+
+var okButtons = document.querySelectorAll(".ok");
+
+// Add event listener to each repeat button
+okButtons.forEach(function(button) {
+    button.addEventListener("click", async function() {
+        // Get the ID of the row
+        var rowId = button.closest('tr').id;
+        console.log(rowId);
+
+        // Prepare the data for the AJAX request
+        var data = {
+            rowId: rowId
+        };
+
+        try {
+            // Send AJAX request using the Fetch API
+            let csrfToken = getCookie('csrftoken');
+            var response = await fetch(`/api/complete/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                // If the response is successful (status code 200), do something
+                var responseData = await response.json();
+                console.log(responseData); // Log the response data
+
+                //aba ui bata delete handina paryo tyo element lagi
+                var actions=button.parentNode
+                var row=button.parentNode.parentNode;
+                //row.remove();//remove the row from the DOM
+                actions.remove()
+                row.style.textDecoration="line-through";
+
+
+            } else {
+                // If there's an error response, handle it accordingly
+                console.error('Error:', response.status);
+            }
+        } catch (error) {
+            // Handle any network errors
+            console.error('Network Error:', error);
+        }
+    });
+});
+
+//**********************************************************************************************************
+
+//yo repeat click garessi
+
+var repeatButtons = document.querySelectorAll(".repeat");
+
+// Add event listener to each repeat button
+repeatButtons.forEach(function(button) {
+    button.addEventListener("click", async function() {
+        // Get the ID of the row
+        var rowId = button.closest('tr').id;
+        console.log(rowId);
+
+        // Prepare the data for the AJAX request
+        var data = {
+            rowId: rowId
+        };
+
+        try {
+            // Send AJAX request using the Fetch API
+            let csrfToken = getCookie('csrftoken');
+            var response = await fetch(`/api/repeat/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                // Reload the page after successful POST
+                location.reload();
+
+            } else {
+                // If there's an error response, handle it accordingly
+                console.error('Error:', response.status);
+            }
+        } catch (error) {
+            // Handle any network errors
+            console.error('Network Error:', error);
+        }
+    });
+});
+
+
+
+//************************************************************************************************************
+//popup nikalna ko lagi
+popup=document.querySelector(".popup")
+overlay=document.querySelector("#overlay")
+
+var postponeButtons = document.querySelectorAll(".postpone");
+
+// Add event listener to each repeat button
+postponeButtons.forEach(function(button) {
+    button.addEventListener("click", async function() {
+
+        // Get the ID of the row
+        var rowId = button.closest('tr').id;
+        console.log(rowId);
+
+        // Add a data attribute to the popup
+        niskeko_popup=document.querySelector(".popup")
+        niskeko_popup.setAttribute("data-id", rowId);
+
+        //aba popup lai open garne
+        popup.style.display='block';
+        overlay.style.display = 'block';
+        document.body.style.overflow="hidden";
+
+    });
+});
+
+
+//**************************************************************************************************************************************
+//close garna ko lagi
+
+close=document.querySelector(".close");
+close.addEventListener("click", function(){
+    popup=document.querySelector(".popup");
+    overlay=document.querySelector('#overlay');
+    const bodyElement = document.querySelector('body');
+    popup.style.display="none";
+    overlay.style.display="none";
+    document.body.style.overflow='auto';
+});
+//**************************************************************************************************************************************************
+//tyo deadline resubmit vayo vani teslai ajax request garna ko lagi.popup bata submit vayo vani
+resubmit_button=document.querySelector("#dedline_resubmit")
+resubmit_button.addEventListener("click",async function() {
+    // Get the data attribute of the popup
+    popupelement=document.querySelector('.popup')
+    var Id=popupelement.getAttribute("data-id")
+    console.log("Data ID:", Id);
+    var deadlineValue = document.getElementById("id_deadline_re").value;
+    console.log("new deadline:",deadlineValue);
+    // Prepare the data for the AJAX request
+    var data = {
+        rowId: Id,
+        new_deadline:deadlineValue
+    };
+    try {
+        // Send AJAX request using the Fetch API
+        let csrfToken = getCookie('csrftoken');
+        var response = await fetch(`/api/postpone/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify(data)
+        });
+        if (response.ok) {
+            // Reload the page after successful POST
+            location.reload();  
+
+        } else {
+            // If there's an error response, handle it accordingly
+            console.error('Error:', response.status);
+        }
+    } catch (error) {
+        // Handle any network errors
+        console.error('Network Error:', error);
+    }
+});
+
+    </script>
+
+</body>
+</html>
