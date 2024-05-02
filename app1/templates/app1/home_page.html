@@ -101,8 +101,8 @@
 
             display:flex;
             flex-direction:row;
-            {% comment %} justify-content:flex-start; {% endcomment %}
-            justify-content:center;
+            justify-content:space-between;
+            {% comment %} this was center {% endcomment %}
             align-items:flex-end;
             margin:20px 0 10px 0;
         }
@@ -114,7 +114,8 @@
             align-items:center;
         }
         #id_description{
-            width:500px;
+            width:530px;
+            {% comment %} this was 500 {% endcomment %}
         }
         @media (max-width:851px){
             #id_description{
@@ -458,7 +459,7 @@
         <h1>Within a Week</h1>
         <table class="task-table type2" id="this_week_table">
             <thead>
-                <tr id="7">
+                <tr>
                     <th>SN</th>
                     <th>Task</th>
                     <th>Deadline</th>
@@ -468,7 +469,7 @@
             <tbody>
                 {%if this_week%}
                 {%for task,due_days in this_week%}
-                <tr id="8">
+                <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{task.description}}</td>
                     <td class="deadline">{{task.deadline}}</td>
@@ -490,7 +491,7 @@
         <h1>Within a Month</h1>
         <table class="task-table type2" id="this_month_table">
             <thead>
-                <tr id="10">
+                <tr>
                     <th>SN</th>
                     <th>Task</th>
                     <th>Deadline</th>
@@ -500,7 +501,39 @@
             <tbody>
                 {%if this_month%}
                 {%for task,due_days in this_month%}
-                <tr id="11">
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{task.description}}</td>
+                    <td class="deadline">{{task.deadline}}</td>
+                    <td class="due_days">{{due_days}}</td>
+                </tr>
+                {%endfor%}
+                {%else%}
+                <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+                {%endif%}
+            </tbody>
+        </table>
+
+
+        <h1>More than a Month</h1>
+        <table class="task-table type2" id="this_month_table">
+            <thead>
+                <tr>
+                    <th>SN</th>
+                    <th>Task</th>
+                    <th>Deadline</th>
+                    <th>Due days</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%if this_year%}
+                {%for task,due_days in this_year%}
+                <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{task.description}}</td>
                     <td class="deadline">{{task.deadline}}</td>
@@ -523,7 +556,7 @@
         <h1>Expired Tasks</h1>
         <table class="task-table expired_table type3" id="expired_tables">
             <thead>
-                <tr id="13">
+                <tr>
                     <th>SN</th>
                     <th>Task</th>
                     <th>Deadline</th>
@@ -553,6 +586,7 @@
                 </tr>
                 {%endif%}
             </tbody>
+        </table>
 
     </section>
 
@@ -651,11 +685,12 @@ okButtons.forEach(function(button) {
                 console.log(responseData); // Log the response data
 
                 //aba ui bata delete handina paryo tyo element lagi
-                var actions=button.parentNode
+
+                //var actions=button.parentNode
                 var row=button.parentNode.parentNode;
-                //row.remove();//remove the row from the DOM
-                actions.remove()
-                row.style.textDecoration="line-through";
+                row.remove();//remove the row from the DOM
+                //actions.remove()
+                //row.style.textDecoration="line-through";
 
 
             } else {

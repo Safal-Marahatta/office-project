@@ -2,16 +2,18 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponse, HttpResponseNotFound,HttpResponseRedirect
 from .forms import loginform,RegisterForm,InputForm
-from django.contrib.auth.models import User
 # from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 from .models import Task,repeat
+from django.contrib.auth.models import User
 from django.core.serializers import serialize
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import TaskSerializer
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime,timedelta
+from django.contrib import messages
+from django.core.mail import send_mail
 
 # Create your views here.
 @never_cache
@@ -29,10 +31,15 @@ def login_page(request):
            ## eg. this gives the username of the user:::print(user.get_username())
             
             if user is not None:
-                login(request,user)#yesle k garxa vane:
-#                            -->aauta session banaidinxa ani tesma session data haru store gardinxa.tyo session id chai cookie ko rup ma send gardinxa browser lai.
-#                            -->aba tyo data haru request.session.get('_auth_user_id',default='default') yesto garera herna milxa.
-                return redirect('home')
+                if user.is_active:
+                    login(request,user)#yesle k garxa vane:
+    #                            -->aauta session banaidinxa ani tesma session data haru store gardinxa.tyo session id chai cookie ko rup ma send gardinxa browser lai.
+    #                            -->aba tyo data haru request.session.get('_auth_user_id',default='default') yesto garera herna milxa.
+                    messages.success(request, 'You have successfully logged in.')
+                    return redirect('home')
+                else:
+                    return render(request,'app1/errorlogin.html',{'form':form})
+
             else:
                 return render(request,'app1/errorlogin.html',{'form':form})
     else:
@@ -50,16 +57,25 @@ def register(request):
             username=form.cleaned_data['username']
             first_name=form.cleaned_data['firstname']
             last_name=form.cleaned_data['lastname']
+            email=form.cleaned_data['email']
 
             try:
-                user = User.objects.create_user(username=username,password= password,)#At this point, user is a User object that has already been saved to the database.
+                user = User.objects.create_user(username=username,password= password)#At this point, user is a User object that has already been saved to the database.
                 #if you want to change other fields.
                     #>>> user.last_name = "Lennon"
                     #>>> user.save()
                 user.first_name=first_name
                 user.last_name=last_name
+                user.email=email
+                user.is_active=False # User is not active until approved by admin
                 user.save()
-                return redirect('login')#Redirect to the login page after sucessful registration
+                send_mail(
+                    'New Account Request',#subject
+                    'Dear Admin,\nYou have received a new request to approve MyTask account of following user:\n'+'Name:'+first_name+' '+last_name+'\ncompany:IES\n'+'Email:'+email+'\nPlease approve it from admin account.\n'+'MyTask',
+                    'mytaskowner@gmail.com',
+                    ['anup.khanal@ies.com.np']
+                )
+                return render(request,"app1/register_pending.html")
             except Exception as e:
                 return HttpResponse('An error occurred while registering the user: {}'.format(str(e)))
     
@@ -85,7 +101,9 @@ def home(request):
         tomorrow_list=[]
         thisweek_list=[]
         thismonth_list=[]
+        thisyear_list=[]
         current_date = datetime.now().date()#current date
+        current_month = current_date.month
 
         # Get all instances of the Postponed model
         all_repeat_data = repeat.objects.filter(user=current_user)
@@ -107,14 +125,17 @@ def home(request):
                 days_rem=task.deadline-current_date
                 due_days=days_rem.days
                 thisweek_list.append([task,due_days])
+            elif task.deadline.month == current_month:
+                due_days = (task.deadline - current_date).days
+                thismonth_list.append([task, due_days])
             else:
-                print("deadline this month")
+                print("deadline more than a year")
                 days_rem=task.deadline-current_date
                 due_days=days_rem.days
-                thismonth_list.append([task,due_days])    
+                thisyear_list.append([task,due_days])    
         form=InputForm()
         
-        return render(request,"app1/home_page.html",{'form':form,'repeat':all_repeat_data,'expired':expired_list,"today":today_list,"tommorrow":tomorrow_list,"this_week":thisweek_list,"this_month":thismonth_list,"firstname":fname,"lastname":lname}) 
+        return render(request,"app1/home_page.html",{'form':form,'repeat':all_repeat_data,'expired':expired_list,"today":today_list,"tommorrow":tomorrow_list,"this_week":thisweek_list,"this_month":thismonth_list,"this_year":thisyear_list,"firstname":fname,"lastname":lname}) 
     
     if request.method=="POST":#yo chai tyo naya task user le halda teslai handle garne
         form=InputForm(request.POST)
@@ -137,7 +158,7 @@ def home(request):
         
         
 
-         
+      
 @api_view(['post'])
 def complete_task(request):
     if request.method == "POST":
@@ -165,8 +186,8 @@ def complete_task(request):
             
         # Return a response
         return Response({'message': 'Task completed'}, status=200)
-    
-          
+
+        
 @api_view(['post'])
 def postpone_task(request):
     if request.method == "POST":

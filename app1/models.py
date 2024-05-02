@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 #username:safal
 #password:safal
 
-# Create your models here.
+
     
 class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
