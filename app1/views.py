@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime,timedelta
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 @never_cache
@@ -90,6 +91,7 @@ def logout_page(request):
     logout(request)
     return redirect('login')
 
+@login_required
 @never_cache
 def home(request):
     if request.method=="GET":
